@@ -20,6 +20,11 @@ def regist(request):
     if regist_form.is_valid():
         try:
             regist_form.save()
+            email = regist_form.cleaned_data.get('email')
+            password = regist_form.cleaned_data.get('password')
+            user = authenticate(email=email, password=password)
+            login(request, user)
+            messages.success(request, 'ユーザー登録が完了しました')
             return redirect('accounts:top')
         except ValidationError as e:
             regist_form.add_error('password', e)
@@ -39,7 +44,7 @@ def user_login(request):
         if user:
             if user.is_active:
                 login(request, user)
-                messages.success(request, 'ログインしました。')
+                messages.success(request, 'ログインしました')
                 return redirect('accounts:top')
             else:
                 return render(
