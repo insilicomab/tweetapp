@@ -9,6 +9,9 @@ class Posts(models.Model):
 
     class Meta:
         db_table = 'posts'
+    
+    def __str__(self):
+        return self.content
 
 
 class Likes(models.Model):
