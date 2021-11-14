@@ -4,7 +4,7 @@ from django.contrib.auth.password_validation import validate_password
 
 
 class RegistForm(forms.ModelForm):
-    username = forms.CharField(label='ユーザー名')
+    username = forms.CharField(label='名前')
     email = forms.EmailField(label='メールアドレス')
     password = forms.CharField(label='パスワード', widget=forms.PasswordInput())
     confirm_password = forms.CharField(label='パスワード再入力', widget=forms.PasswordInput())
@@ -31,3 +31,13 @@ class RegistForm(forms.ModelForm):
 class LoginForm(forms.Form):
     email = forms.CharField(label="メールアドレス")
     password = forms.CharField(label="パスワード", widget=forms.PasswordInput())
+
+
+class UserEditForm(forms.ModelForm):
+    username = forms.CharField(label='名前')
+    email = forms.EmailField(label='メールアドレス')
+    picture = forms.FileField(label='写真', required=False)
+
+    class Meta:
+        model = Users
+        fields = ('username', 'email', 'picture')

@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="main users-edit">
+    <div class="container">
+      <div class="form-heading">アカウント編集</div>
+      <div class="form users-form">
+        <div class="form-body">
+        {% if error_message %}
+            <div class="form-error">
+            {{ error_message }}
+            </div>
+        {% endif %}
+        
+          <form method="POST" enctype="multipart/form-data">{% csrf_token %}
+            
+            {{user_edit_form.username.errors}}
+            <label for="{{user_edit_form.username.id_for_label}}">ユーザー名</label>
+            {{user_edit_form.username}}
+
+            {{user_edit_form.picture.errors}}
+            <label for="{{user_edit_form.picture.id_for_label}}">画像</label>
+            {{user_edit_form.picture}}
+
+            {{user_edit_form.email.errors}}
+            <label for="{{user_edit_form.email.id_for_label}}">メールアドレス</label>
+            {{user_edit_form.email}}
+            <input type="submit" value="保存">
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
