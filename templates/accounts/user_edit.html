@@ -19,7 +19,7 @@
 
             {{user_edit_form.picture.errors}}
             <label for="{{user_edit_form.picture.id_for_label}}">画像</label>
-            {{user_edit_form.picture}}
+            <input id="{{user_edit_form.picture.id_for_label}}" name="picture" type="file">
 
             {{user_edit_form.email.errors}}
             <label for="{{user_edit_form.email.id_for_label}}">メールアドレス</label>
