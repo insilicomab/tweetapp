@@ -26,7 +26,7 @@ def regist(request):
             user = authenticate(email=email, password=password)
             login(request, user)
             messages.success(request, 'ユーザー登録が完了しました')
-            return redirect('accounts:top')
+            return redirect('post:posts_index')
         except ValidationError as e:
             regist_form.add_error('password', e)
     return render(
@@ -46,7 +46,7 @@ def user_login(request):
             if user.is_active:
                 login(request, user)
                 messages.success(request, 'ログインしました')
-                return redirect('accounts:top')
+                return redirect('post:posts_index')
             else:
                 return render(
                 request, 'accounts/user_login.html', {
@@ -81,7 +81,7 @@ def user_edit(request):
     if user_edit_form.is_valid():
         messages.success(request, 'ユーザー情報を編集しました')
         user_edit_form.save()
-        return redirect('accounts:top')
+        return redirect('post:posts_index')
     return render(request, 'accounts/user_edit.html', context={
         'user_edit_form': user_edit_form,
     })

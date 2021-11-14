@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="main posts-index">
+    <div class="container">
+    {% for post in posts %}
+        <div class="posts-index-item">
+          <div class="post-left">
+            <img src="{{ post.user.picture.url }}">
+          </div>
+          <div class="post-right">
+            <div class="post-user-name">
+              <a href="">{{ post.user.username }}</a>
+            </div>
+            <a href="">{{ post.content }}</a>
+          </div>
+        </div>
+    {% endfor %}
+    </div>
+</div>
+{% endblock content %}
