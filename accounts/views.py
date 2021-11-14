@@ -5,6 +5,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.views.generic.base import TemplateView
+from .models import Users
 
 
 class TopView(TemplateView):
@@ -83,4 +84,12 @@ def user_edit(request):
         return redirect('accounts:top')
     return render(request, 'accounts/user_edit.html', context={
         'user_edit_form': user_edit_form,
+    })
+
+
+@login_required
+def users_index(request):
+    users = Users.objects.order_by('-id').all()
+    return render(request, 'accounts/users_index.html', context={
+        'users': users
     })

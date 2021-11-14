@@ -8,7 +8,7 @@ class RegistForm(forms.ModelForm):
     username = forms.CharField(label='名前')
     email = forms.EmailField(label='メールアドレス')
     password = forms.CharField(label='パスワード', widget=forms.PasswordInput())
-    confirm_password = forms.CharField(label='パスワード再入力', widget=forms.PasswordInput())
+    confirm_password = forms.CharField(label='パスワード（確認用）', widget=forms.PasswordInput())
     
     class Meta():
         model = Users

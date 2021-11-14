@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="main users-index">
+    <div class="container">
+      <h1 class="users-heading">ユーザー一覧</h1>
+      {% for user in users %}
+        <div class="users-index-item">
+          <div class="user-left">
+            <img src="{{ user.picture.url }}" %>
+          </div>
+          <div class="user-right">
+            <a href="">{{ user.username }}</a>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+</div>
+{% endblock content %}
