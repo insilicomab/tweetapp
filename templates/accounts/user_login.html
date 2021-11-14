@@ -12,7 +12,14 @@
         {% endif %}
   
         <form method="POST">{% csrf_token %}
-            {{ login_form.as_p }}
+          {{login_form.email.errors}}
+          <label for="{{login_form.email.id_for_label}}">メールアドレス</label>
+          {{login_form.email}}
+
+          {{rlogin_form.password.errors}}
+          <label for="{{login_form.password.id_for_label}}">パスワード</label>
+          {{login_form.password}}
+          
             <input type="submit" value="ログイン">
         </form>
         </div>

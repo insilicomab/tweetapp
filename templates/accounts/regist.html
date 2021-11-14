@@ -12,7 +12,23 @@
         {% endif %}
 
         <form method="POST">{% csrf_token %}
-          {{ regist_form.as_p }}
+
+          {{regist_form.username.errors}}
+          <label for="{{regist_form.username.id_for_label}}">ユーザー名</label>
+          {{regist_form.username}}
+
+          {{regist_form.email.errors}}
+          <label for="{{regist_form.email.id_for_label}}">メールアドレス</label>
+          {{regist_form.email}}
+
+          {{regist_form.password.errors}}
+          <label for="{{regist_form.password.id_for_label}}">パスワード</label>
+          {{regist_form.password}}
+
+          {{regist_form.confirm_password.errors}}
+          <label for="{{regist_form.confirm_password.id_for_label}}">パスワード（確認用）</label>
+          {{regist_form.confirm_password}}
+
           <input type="submit" value="新規登録">
         </form>
       </div>
