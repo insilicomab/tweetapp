@@ -6,12 +6,10 @@
       <form method="POST">{% csrf_token %}
         <div class="form">
           <div class="form-body">
-            {% if error_message %}
               <div class="form-error">
-                {{ error_message }}
-              </div>
-            {% endif %}
+          </div>
             
+            {{create_post_form.content.errors}}
             <textarea id="{{create_post_form.content.id_for_label}}" name="content"></textarea>
             <input type="submit" value="投稿">
           </div>
