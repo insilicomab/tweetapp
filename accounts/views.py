@@ -88,31 +88,40 @@ def user_logout(request):
     return redirect('accounts:user_login')
 
 
-@login_required
 def user_edit(request):
-    user_edit_form = forms.UserEditForm(request.POST or None, request.FILES or None, instance=request.user)
-    if user_edit_form.is_valid():
-        messages.success(request, 'ユーザー情報を編集しました')
-        user_edit_form.save()
-        return redirect('post:posts_index')
-    return render(request, 'accounts/user_edit.html', context={
-        'user_edit_form': user_edit_form,
-    })
+    if not request.user.is_authenticated:
+        messages.warning(request, 'ログインが必要です')
+        return redirect('accounts:user_login')
+    else:
+        user_edit_form = forms.UserEditForm(request.POST or None, request.FILES or None, instance=request.user)
+        if user_edit_form.is_valid():
+            messages.success(request, 'ユーザー情報を編集しました')
+            user_edit_form.save()
+            return redirect('post:posts_index')
+        return render(request, 'accounts/user_edit.html', context={
+            'user_edit_form': user_edit_form,
+        })
 
 
-@login_required
 def users_index(request):
-    users = Users.objects.order_by('-id').all()
-    return render(request, 'accounts/users_index.html', context={
-        'users': users
-    })
+    if not request.user.is_authenticated:
+        messages.warning(request, 'ログインが必要です')
+        return redirect('accounts:user_login')
+    else:
+        users = Users.objects.order_by('-id').all()
+        return render(request, 'accounts/users_index.html', context={
+            'users': users
+        })
 
 
-@login_required
 def user_detail(request, user_id):
-    user = get_object_or_404(Users, id=user_id)
-    posts = Posts.objects.filter(
-        user_id=user_id).order_by('-created_at')
-    return render(request, 'accounts/user_detail.html', context={
-        'user': user, 'posts' : posts
-    })
+    if not request.user.is_authenticated:
+        messages.warning(request, 'ログインが必要です')
+        return redirect('accounts:user_login')
+    else:
+        user = get_object_or_404(Users, id=user_id)
+        posts = Posts.objects.filter(
+            user_id=user_id).order_by('-created_at')
+        return render(request, 'accounts/user_detail.html', context={
+            'user': user, 'posts' : posts
+        })
