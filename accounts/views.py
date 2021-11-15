@@ -16,9 +16,6 @@ def top(request):
         return redirect('post:posts_index')
     return render(request, 'accounts/top.html')
 
-class TopView(TemplateView):
-    template_name = 'accounts/top.html'
-
 
 class AboutView(TemplateView):
     template_name = 'accounts/about.html'
@@ -49,35 +46,39 @@ def regist(request):
 
 
 def user_login(request):
-    login_form = forms.LoginForm(request.POST or None)
-    if login_form.is_valid():
-        email = login_form.cleaned_data.get('email')
-        password = login_form.cleaned_data.get('password')
-        user = authenticate(email=email, password=password)
-        if user:
-            if user.is_active:
-                login(request, user)
-                messages.success(request, 'ログインしました')
-                return redirect('post:posts_index')
+    if request.user.is_authenticated:
+        messages.warning(request, 'すでにログインしています')
+        return redirect('post:posts_index')
+    else:
+        login_form = forms.LoginForm(request.POST or None)
+        if login_form.is_valid():
+            email = login_form.cleaned_data.get('email')
+            password = login_form.cleaned_data.get('password')
+            user = authenticate(email=email, password=password)
+            if user:
+                if user.is_active:
+                    login(request, user)
+                    messages.success(request, 'ログインしました')
+                    return redirect('post:posts_index')
+                else:
+                    return render(
+                    request, 'accounts/user_login.html', {
+                        'error_message' : 'ユーザがアクティブでありません',
+                        'login_form': login_form,
+                    }
+                )
             else:
                 return render(
-                request, 'accounts/user_login.html', {
-                    'error_message' : 'ユーザがアクティブでありません',
-                    'login_form': login_form,
-                }
-            )
-        else:
-            return render(
-                request, 'accounts/user_login.html', {
-                    'error_message' : 'メールアドレスまたはパスワードが間違っています',
-                    'login_form': login_form,
-                }
-            )
-    return render(
-        request, 'accounts/user_login.html', context={
-            'login_form': login_form,
-        }
-    )
+                    request, 'accounts/user_login.html', {
+                        'error_message' : 'メールアドレスまたはパスワードが間違っています',
+                        'login_form': login_form,
+                    }
+                )
+        return render(
+            request, 'accounts/user_login.html', context={
+                'login_form': login_form,
+            }
+        )
 
 
 @login_required

@@ -1,7 +1,6 @@
 from django.urls import path
 from . import views
-from .views import (
-    AboutView, TopView)
+from .views import AboutView
 
 
 app_name = 'accounts'
