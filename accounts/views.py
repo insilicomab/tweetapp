@@ -25,23 +25,27 @@ class AboutView(TemplateView):
 
 
 def regist(request):
-    regist_form = forms.RegistForm(request.POST or None)
-    if regist_form.is_valid():
-        try:
-            regist_form.save()
-            email = regist_form.cleaned_data.get('email')
-            password = regist_form.cleaned_data.get('password')
-            user = authenticate(email=email, password=password)
-            login(request, user)
-            messages.success(request, 'ユーザー登録が完了しました')
-            return redirect('post:posts_index')
-        except ValidationError as e:
-            regist_form.add_error('password', e)
-    return render(
-        request, 'accounts/regist.html', context={
-            'regist_form': regist_form,
-        }
-    )
+    if request.user.is_authenticated:
+        messages.warning(request, 'すでにログインしています')
+        return redirect('post:posts_index')
+    else:
+        regist_form = forms.RegistForm(request.POST or None)
+        if regist_form.is_valid():
+            try:
+                regist_form.save()
+                email = regist_form.cleaned_data.get('email')
+                password = regist_form.cleaned_data.get('password')
+                user = authenticate(email=email, password=password)
+                login(request, user)
+                messages.success(request, 'ユーザー登録が完了しました')
+                return redirect('post:posts_index')
+            except ValidationError as e:
+                regist_form.add_error('password', e)
+        return render(
+            request, 'accounts/regist.html', context={
+                'regist_form': regist_form,
+            }
+        )
 
 
 def user_login(request):
