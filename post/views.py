@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
 from . import forms
 from django.contrib import messages
 from .models import Posts
@@ -19,6 +19,7 @@ def create_post(request):
         }
     )
 
+
 @login_required
 def posts_index(request):
     posts = Posts.objects.order_by('-updated_at').all()
@@ -27,3 +28,11 @@ def posts_index(request):
             'posts': posts
         }
     )
+
+
+@login_required
+def post_detail(request, post_id):
+    post = get_object_or_404(Posts, id=post_id)
+    return render(request, 'post/post_detail.html', context={
+        'post' : post
+    })

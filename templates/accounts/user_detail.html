@@ -25,7 +25,7 @@
             <div class="post-user-name">
               <a href="{% url 'accounts:user_detail' user_id=post.user.id %}">{{ post.user.username }}</a>
             </div>
-            <a href="">{{ post.content }}</a>
+            <a href="{% url 'post:post_detail' post_id=post.id %}">{{ post.content }}</a>
           </div>
         </div>
       {% endfor %}
