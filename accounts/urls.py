@@ -7,7 +7,7 @@ from .views import (
 app_name = 'accounts'
 
 urlpatterns = [
-    path('', TopView.as_view(), name='top'),
+    path('', views.top, name='top'),
     path('about', AboutView.as_view(), name='about'),
     path('regist', views.regist, name='regist'),
     path('user_login', views.user_login, name='user_login'),

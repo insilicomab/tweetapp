@@ -10,6 +10,12 @@ from django.views.generic.base import TemplateView
 from .models import Users
 
 
+def top(request):
+    if request.user.is_authenticated:
+        messages.warning(request, 'すでにログインしています')
+        return redirect('post:posts_index')
+    return render(request, 'accounts/top.html')
+
 class TopView(TemplateView):
     template_name = 'accounts/top.html'
 
