@@ -1,4 +1,6 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
+
+from post.models import Posts
 from . import forms
 from django.core.exceptions import ValidationError
 from django.contrib.auth import authenticate, login, logout
@@ -92,4 +94,14 @@ def users_index(request):
     users = Users.objects.order_by('-id').all()
     return render(request, 'accounts/users_index.html', context={
         'users': users
+    })
+
+
+@login_required
+def user_detail(request, user_id):
+    user = get_object_or_404(Users, id=user_id)
+    posts = Posts.objects.filter(
+        user_id=user_id).order_by('-created_at')
+    return render(request, 'accounts/user_detail.html', context={
+        'user': user, 'posts' : posts
     })
