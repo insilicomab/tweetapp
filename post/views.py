@@ -47,3 +47,24 @@ def post_detail(request, post_id):
         return render(request, 'post/post_detail.html', context={
             'post' : post
         })
+
+
+def edit_post(request, post_id):
+    if not request.user.is_authenticated:
+        messages.warning(request, 'ログインが必要です')
+        return redirect('accounts:user_login')
+    else:
+        post = get_object_or_404(Posts, id=post_id)
+        if post.user.id != request.user.id:
+            messages.warning(request, '権限がありません')
+            return redirect('post:posts_index')
+        edit_post_form = forms.CreatePostForm(request.POST or None, instance=post)
+        if edit_post_form.is_valid():
+            edit_post_form.save()
+            messages.success(request, '投稿を編集しました')
+            return redirect('post:posts_index')
+        return render(request, 'post/edit_post.html', context={
+            'edit_post_form': edit_post_form,
+            'post': post
+        })
+
