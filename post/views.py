@@ -68,3 +68,17 @@ def edit_post(request, post_id):
             'post': post
         })
 
+
+def delete_post(request, post_id):
+    if not request.user.is_authenticated:
+        messages.warning(request, 'ログインが必要です')
+        return redirect('accounts:user_login')
+    else:
+        post = get_object_or_404(Posts, id=post_id)
+        if post.user.id != request.user.id:
+            messages.warning(request, '権限がありません')
+            return redirect('post:posts_index')
+        post.delete()
+        messages.success(request, '投稿を削除しました')
+        return redirect('post:posts_index')
+        
