@@ -5,7 +5,6 @@ from .models import Posts
 from django.contrib.auth.decorators import login_required
 
 
-
 def create_post(request):
     if not request.user.is_authenticated:
         messages.warning(request, 'ログインが必要です')
