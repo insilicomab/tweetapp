@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="main user-show">
+  <div class="container">
+    <div class="user">
+      <img src="{{ user.picture.url }}">
+      <h2>{{ user.username }}</h2>
+      <p>{{ user.email }}</p>
+      {% if request.user.id == user.id %}
+          <a href="{% url 'accounts:user_edit' %}">編集</a>
+      {% endif %}
+    </div>
+    
+    <ul class="user-tabs">
+      <li><a href="{% url 'accounts:user_detail' user_id=user.id %}">投稿</a></li>
+      <li class="active"><a href="{% url 'accounts:user_like' user_id=user.id %}">いいね</a></li>
+    </ul>
+    
+    {% for like in likes %}
+      <div class="posts-index-item">
+        <div class="post-left">
+          <img src="{{ like.post.user.picture.url }}">
+        </div>
+        <div class="post-right">
+          <div class="post-user-name">
+            <a href="{% url 'accounts:user_detail' user_id=like.post.user.id %}">{{ like.post.user.username }}</a>
+          </div>
+          <a href="{% url 'post:post_detail' post_id=like.post.id %}">{{ like.post.content }}</a>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+{% endblock content %}

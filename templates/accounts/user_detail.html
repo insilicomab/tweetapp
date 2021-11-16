@@ -13,7 +13,7 @@
       
       <ul class="user-tabs">
         <li class="active"><a href="{% url 'accounts:user_detail' user_id=user.id %}">投稿</a></li>
-        <li><a href="">いいね</a></li>
+        <li><a href="{% url 'accounts:user_like' user_id=user.id %}">いいね</a></li>
       </ul>
       
       {% for post in posts %}

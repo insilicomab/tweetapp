@@ -1,6 +1,6 @@
 from django.shortcuts import get_object_or_404, render, redirect
 
-from post.models import Posts
+from post.models import Likes, Posts
 from . import forms
 from django.core.exceptions import ValidationError
 from django.contrib.auth import authenticate, login, logout
@@ -124,4 +124,17 @@ def user_detail(request, user_id):
             user_id=user_id).order_by('-created_at')
         return render(request, 'accounts/user_detail.html', context={
             'user': user, 'posts' : posts
+        })
+
+
+def user_like(request, user_id):
+    if not request.user.is_authenticated:
+        messages.warning(request, 'ログインが必要です')
+        return redirect('accounts:user_login')
+    else:
+        user = get_object_or_404(Users, id=user_id)
+        likes = Likes.objects.filter(
+            user_id=user.id).order_by('-created_at')
+        return render(request, 'accounts/user_like.html', context={
+            'user': user, 'likes': likes
         })
