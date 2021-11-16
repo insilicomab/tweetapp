@@ -23,7 +23,6 @@ def create_post(request):
         )
 
 
-
 def posts_index(request):
     if not request.user.is_authenticated:
         messages.warning(request, 'ログインが必要です')
