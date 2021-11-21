@@ -42,8 +42,13 @@ def post_detail(request, post_id):
         return redirect('accounts:user_login')
     else:
         post = get_object_or_404(Posts, id=post_id)
+        likes_count = post.likes_set.all().count
+        liked = post.likes_set.filter(user=request.user)
+        print(liked)
         return render(request, 'post/post_detail.html', context={
-            'post' : post
+            'post' : post,
+            'likes_count' : likes_count,
+            'liked': liked,
         })
 
 
