@@ -13,6 +13,7 @@
         <div class="post-time">
           {{ post.created_at }}
         </div>
+        
         <% if Like.find_by(user_id: @current_user.id, post_id: @post.id) %>
           <%= link_to("/likes/#{@post.id}/destroy", {method: "post"}) do %>
             <span class="fa fa-heart like-btn-unlike"></span>
@@ -23,6 +24,7 @@
           <% end %>
         <% end %>
         <%= @likes_count %>
+
         {% if request.user.id == post.user.id %}
           <div class="post-menus">
             <a href="{% url 'post:edit_post' post_id=post.id %}">編集</a>
