@@ -14,14 +14,14 @@
           {{ post.created_at }}
         </div>
 
-        <form action="" method="POST">{% csrf_token %}
+        <form action="{% url 'post:likefunc' %}" method="POST">{% csrf_token %}
           {% if liked %}
-            <span class="fa fa-heart like-btn-unlike"></span>
+            <button id="like" name="{{post.id}}" type="button"><span class="fa fa-heart like-btn-unlike"></span></button>
           {% else %}
-            <span class="fa fa-heart like-btn"></span>
+            <button id="like" name="{{post.id}}" type="button"><span class="fa fa-heart like-btn"></span></button>
           {% endif %}
         </form>
-        {{ likes_count }}
+        <span name="{{post.id}}-count">{{ likes_count }}</span>
 
         {% if request.user.id == post.user.id %}
           <div class="post-menus">
@@ -32,12 +32,12 @@
       </div>
     </div>
 </div>
-{% endblock content %}
-
 
 <script type="text/javascript">
   $(document).ready(function(event){
-      $(document).on('click', '#like', function(event){
+    console.log('ready')
+      $('#like').on('click', function(event){
+        console.log('click')
           event.preventDefault();
           $.ajax({
               type: 'POST',
@@ -49,15 +49,17 @@
               success: function(response){
                   selector = document.getElementsByName(response.post_id);
                   if(response.liked){
-                      $(selector).html("<i class='fas fa-lg fa-heart'></i>");
+                      $(selector).html("<span class='fa fa-heart like-btn-unlike'>");
                   }
                   else {
-                      $(selector).html("<i class='far fa-lg fa-heart'></i>");
+                      $(selector).html("<span class='fa fa-heart like-btn'></span>");
                   }
                   selector2 = document.getElementsByName(response.post_id + "-count");
-                  $(selector2).text(response.count);
+                  $(selector2).text(response.likes_count);
               }
           });
       });
   });
 </script>
+
+{% endblock content %}
