@@ -16,9 +16,9 @@
 
         <form action="{% url 'post:likefunc' %}" method="POST">{% csrf_token %}
           {% if liked %}
-            <button id="like" name="{{post.id}}" type="button"><span class="fa fa-heart like-btn-unlike"></span></button>
+            <button id="like" name="{{post.id}}" type="button" class="btn-surrounding"><span class="fa fa-heart like-btn-unlike"></span></button>
           {% else %}
-            <button id="like" name="{{post.id}}" type="button"><span class="fa fa-heart like-btn"></span></button>
+            <button id="like" name="{{post.id}}" type="button" class="btn-surrounding"><span class="fa fa-heart like-btn"></span></button>
           {% endif %}
         </form>
         <span name="{{post.id}}-count">{{ likes_count }}</span>

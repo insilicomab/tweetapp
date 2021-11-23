@@ -335,6 +335,12 @@ header {
   font-size: 14px;
 }
 
+.btn-surrounding {
+  background: transparent;
+  border: none;
+  outline: none;
+}
+
 /* posts/new ================================ */
 .posts-new textarea {
   font-size: 20px;
