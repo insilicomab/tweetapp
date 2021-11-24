@@ -44,7 +44,6 @@ def post_detail(request, post_id):
     else:
         post = get_object_or_404(Posts, id=post_id)
         likes_count = post.likes_set.all().count
-        print(likes_count)
         liked = post.likes_set.filter(user=request.user)
         return render(request, 'post/post_detail.html', context={
             'post' : post,
