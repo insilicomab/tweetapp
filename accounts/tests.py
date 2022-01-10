@@ -22,3 +22,4 @@ class AboutPageRenderTest(TestCase):
         response = self.client.get("/about")
         self.assertTemplateUsed(response, 'accounts/about.html')
 
+
