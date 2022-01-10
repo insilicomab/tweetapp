@@ -1,12 +1,12 @@
 from django.shortcuts import get_object_or_404, render, redirect
-
-from post.models import Likes, Posts
-from . import forms
 from django.core.exceptions import ValidationError
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.views.generic.base import TemplateView
+
+from post.models import Likes, Posts
+from . import forms
 from .models import Users
 
 
