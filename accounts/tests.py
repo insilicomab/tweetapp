@@ -21,3 +21,4 @@ class AboutPageRenderTest(TestCase):
     def test_should_use_expected_template(self):
         response = self.client.get("/about")
         self.assertTemplateUsed(response, 'accounts/about.html')
+
