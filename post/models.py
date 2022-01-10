@@ -1,5 +1,4 @@
 from django.db import models
-from django.core.exceptions import ValidationError
 
 
 class Posts(models.Model):
@@ -13,12 +12,6 @@ class Posts(models.Model):
     
     def __str__(self):
         return self.content
-    
-    def clean_content(self):
-        content = self.cleaned_data['content']
-        if len(content) > 140:
-            raise ValidationError('文字数は140文字以下にしてください。')
-        return content
 
 
 class Likes(models.Model):
