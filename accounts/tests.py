@@ -1,9 +1,10 @@
 from django.contrib.auth import get_user_model
 from django.http import response
 from django.test import TestCase
-from django.contrib.auth import get_user_model
-from django.urls import resolve
-from .views import top, AboutView
+from django.urls import resolve, reverse
+
+from .forms import RegistForm
+from .views import top, AboutView, regist
 
 
 UserModel = get_user_model()
@@ -72,6 +73,33 @@ class AboutPageRenderTest(TestCase):
 registページ
 '''
 
+
+class SignUpTests(TestCase):
+    '''
+    基本的なテストでステータスコードの確認、
+    ビューやフォームが適切かどうかの確認、
+    CSRF対策のトークンが含まれているかを確認
+    '''
+
+    def setUp(self):
+        url = reverse('accounts:regist')
+        self.response = self.client.get(url)
+
+    def test_signup_status_code(self):
+        self.assertEquals(self.response.status_code, 200)
+
+    def test_signup_url_resolves_signup_view(self):
+        found = resolve('/accounts/regist')
+        self.assertEqual(regist, found.func)
+
+    def test_csrf(self):
+        self.assertContains(self.response, 'csrfmiddlewaretoken')
+
+    def test_contains_form(self):
+        form = self.response.context.get('regist_form')
+        self.assertIsInstance(form, RegistForm)
+
+    
 class LoginUserRegistPageRedirectTest(TestCase):
     '''
     ログイン済みユーザーがサインアップページにGETリクエストすると
