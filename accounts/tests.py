@@ -73,7 +73,6 @@ class AboutPageRenderTest(TestCase):
 registページ
 '''
 
-
 class SignUpTests(TestCase):
     '''
     基本的なテストでステータスコードの確認、
