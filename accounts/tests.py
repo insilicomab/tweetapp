@@ -114,3 +114,63 @@ class LoginUserLoginPageRedirectTest(TestCase):
         self.assertTrue(logged_in)
         response = self.client.get('/accounts/user_login')
         self.assertRedirects(response, '/post/posts_index')
+
+
+'''
+user_editページ
+'''
+
+class NotAuthenticatedEditUderRedirectTest(TestCase):
+    '''
+    未認証ユーザーがユーザー編集ページにGETリクエストすると
+    ログインページにリダイレクトされることを検証
+    '''
+
+    def test_not_authenticated_user_get_user_edit_page_redirected_to_login(self):
+        response = self.client.get('/accounts/user_edit')
+        self.assertRedirects(response, '/accounts/user_login')
+
+
+'''
+users_indexページ
+'''
+
+class NotAuthenticatedUserIndexRedirectTest(TestCase):
+    '''
+    未認証ユーザーがユーザー一覧ページにGETリクエストすると
+    ログインページにリダイレクトされることを検証
+    '''
+
+    def test_not_authenticated_user_get_user_index_page_redirected_to_login(self):
+        response = self.client.get('/accounts/users_index')
+        self.assertRedirects(response, '/accounts/user_login')
+
+
+'''
+user_detailページ
+'''
+
+class NotAuthenticatedUserDetailRedirectTest(TestCase):
+    '''
+    未認証ユーザーがユーザー詳細ページにGETリクエストすると
+    ログインページにリダイレクトされることを検証
+    '''
+
+    def test_not_authenticated_user_get_user_detail_page_redirected_to_login(self):
+        response = self.client.get('/accounts/user_detail/1')
+        self.assertRedirects(response, '/accounts/user_login')
+
+
+'''
+user_likeページ
+'''
+
+class NotAuthenticatedUserLikeRedirectTest(TestCase):
+    '''
+    未認証ユーザーがユーザーいいねページにGETリクエストすると
+    ログインページにリダイレクトされることを検証
+    '''
+
+    def test_not_authenticated_user_get_user_like_page_redirected_to_login(self):
+        response = self.client.get('/accounts/user_like/1')
+        self.assertRedirects(response, '/accounts/user_login')
