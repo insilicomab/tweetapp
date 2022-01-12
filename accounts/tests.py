@@ -118,6 +118,31 @@ class SuccessfulRegistTest(TestCase):
         self.assertTrue(UserModel.objects.filter(email='test@mail.com').exists)
 
 
+class FailedRegistTest(TestCase):
+    '''ユーザー登録が成功したときの検証'''
+
+    def setUp(self):
+        self.user = UserModel.objects.create_user(
+            username = 'test',
+            email = 'test@email.com',
+            password = 'password'
+        )
+
+        user2 = {
+            'username': 'test2',
+            'email': 'test@mail.com',
+            'password': 'password',
+            'confirm_password': 'password'
+        }
+        self.response = self.client.post('/accounts/regist', user2)
+    
+    def test_user_regist_with_same_email(self):
+        self.assertEquals(self.response.status_code, 200)
+        form = self.response.context.get('regist_form')
+        self.assertTrue(form.errors)
+        self.assertFalse(UserModel.objects.filter(username='test2').exists())
+
+
 class LoginUserRegistPageRedirectTest(TestCase):
     '''
     ログイン済みユーザーがサインアップページにGETリクエストすると
