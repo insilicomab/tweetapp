@@ -121,7 +121,7 @@ class SuccessfulRegistTest(TestCase):
 
 
 class FailedRegistTest(TestCase):
-    '''ユーザー登録が成功したときの検証'''
+    '''既に存在しているメールアドレスを登録しようとしたときの検証'''
 
     def setUp(self):
         self.user = UserModel.objects.create_user(
