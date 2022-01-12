@@ -73,7 +73,7 @@ class AboutPageRenderTest(TestCase):
 registページ
 '''
 
-class SignUpTests(TestCase):
+class RegistTests(TestCase):
     '''
     基本的なテストでステータスコードの確認、
     ビューやフォームが適切かどうかの確認、
@@ -98,7 +98,26 @@ class SignUpTests(TestCase):
         form = self.response.context.get('regist_form')
         self.assertIsInstance(form, RegistForm)
 
+
+class SuccessfulRegistTest(TestCase):
+    '''ユーザー登録が成功したときの検証'''
+
+    def setUp(self):
+        user = {
+            'username': 'test',
+            'email': 'test@mail.com',
+            'password': 'password',
+            'confirm_password': 'password'
+        }
+        self.response = self.client.post('/accounts/regist', user)
     
+    def test_user_regist_success_redirected_to_post_index(self):
+        # ユーザー登録を成功することを確認
+        self.assertTrue(self.response)
+        # 新しいユーザーが登録されたことを確認
+        self.assertTrue(UserModel.objects.filter(email='test@mail.com').exists)
+
+
 class LoginUserRegistPageRedirectTest(TestCase):
     '''
     ログイン済みユーザーがサインアップページにGETリクエストすると
