@@ -116,6 +116,8 @@ class SuccessfulRegistTest(TestCase):
         self.assertTrue(self.response)
         # 新しいユーザーが登録されたことを確認
         self.assertTrue(UserModel.objects.filter(email='test@mail.com').exists)
+        # pictureがデフォルトに設定されていることを確認
+        self.assertTrue(UserModel.objects.filter(picture='picture/default_user.jpeg').exists)
 
 
 class FailedRegistTest(TestCase):
